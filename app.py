@@ -5,7 +5,6 @@ from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 from functools import wraps
 
-
 app = Flask(__name__)
 
 #Config MySQL
@@ -17,7 +16,7 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 #init MYSQL
 mysql=MySQL(app)
 
-#OLD MYQL PASSWORD: lookinlikeasnacc
+#OLD MYSQL PASSWORD: lookinlikeasnacc
 
 #check if user logged in
 def is_logged_in(f):
@@ -177,10 +176,13 @@ def dashboard():
 
     #Get bucks
     result = cur.execute("SELECT * FROM users WHERE username=%s", [session['username']])
-
     user = cur.fetchone()
-
-    return render_template('dashboard.html', user=user)
+    userID = int(user['id'])
+    # print(str(type(userID))+ str(userID) + " <---------- <------ USERID")
+    # Get bucks given to user
+    result = cur.execute("SELECT * FROM bucktransfers WHERE getterID=%s", [userID])
+    transfers = cur.fetchall()
+    return render_template('dashboard.html', user=user, transfers=transfers)
 
     #Close connection
     cur.close()
@@ -194,11 +196,14 @@ def add_buck(id):
     gettingUser = cur.fetchone()
     result = cur.execute("SELECT * FROM users WHERE username=%s", [session['username']])
     givingUser = cur.fetchone()
-
-    # give/take bucks if requirements are met, if not flash message
-    if gettingUser.get('username') != session['username'] and int(givingUser['bucksToGive']) > 0:
+    if gettingUser.get('username') != session['username'] and int(givingUser['bucksToGive']) > 0:\
+        #give/take bucks
         cur.execute("UPDATE users SET bucks = bucks + 1 WHERE id = %s", (id))
         cur.execute("UPDATE users SET bucksToGive = bucksToGive - 1 WHERE username = %s", [session['username']])
+
+        #add transfer to transfer table
+        giverID = int(givingUser['id'])
+        cur.execute("INSERT INTO bucktransfers VALUES(%s,%s)", (id,giverID))
     else:
         if gettingUser.get('username') == session['username']:
             flash('You cant give yourself bucks you cheater', 'success')
@@ -235,7 +240,7 @@ if __name__ == '__main__':
     #DELETE A USER
         # 1) DELETE FROM users WHERE variable=value;
 
-
+# GIVE MYSELF BUCKS: UPDATE users SET bucksToGive = 10 WHERE id = 1;
 
 # #Register Form Class
 # class ArticleForm(Form):

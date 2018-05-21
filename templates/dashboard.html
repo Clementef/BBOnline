@@ -1,21 +1,21 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-    <h1>Dashboard <small>Welcome {{session.username}}</small></h1>
-    <hr />
+  <h1>Dashboard <small>Welcome {{session.username}}</small></h1>
+  <hr />
 
-<table class="table" style="background-color: white; border-radius: 6px">
-  <thead class="thead">
-    <tr>
-      <th scope="col">Your Bucks</th>
-      <th scope="col">Bucks Left to Give</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td scope="row">{{user.bucks|string}}</td>
-      <td>{{user.bucksToGive|string}}</td>
-    </tr>
-  </tbody>
-</table>
+  <table class="table" style="background-color: white; border-radius: 6px">
+    <thead class="thead">
+      <tr>
+        <th scope="col">Your Bucks</th>
+        <th scope="col">Bucks Left to Give</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td scope="row">{{user.bucks|string}}</td>
+        <td>{{user.bucksToGive|string}}</td>
+      </tr>
+    </tbody>
+  </table>
 {% endblock %}
