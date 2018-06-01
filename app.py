@@ -179,10 +179,15 @@ def dashboard():
     user = cur.fetchone()
     userID = int(user['id'])
     # print(str(type(userID))+ str(userID) + " <---------- <------ USERID")
+
     # Get bucks given to user
-    result = cur.execute("SELECT * FROM bucktransfers WHERE getterID=%s", [userID])
-    transfers = cur.fetchall()
-    return render_template('dashboard.html', user=user, transfers=transfers)
+    result = cur.execute("SELECT users.name FROM users INNER JOIN bucktransfers ON bucktransfers.getterID=users.id WHERE bucktransfers.giverid=%s", [userID])
+    bucksYouGave = cur.fetchall()
+
+    result = cur.execute("SELECT users.name FROM users INNER JOIN bucktransfers ON bucktransfers.giverID=users.id WHERE bucktransfers.getterid=%s",[userID])
+    bucksYouGot = cur.fetchall()
+
+    return render_template('dashboard.html', user=user, bucksYouGot=bucksYouGot, bucksYouGave=bucksYouGave)
 
     #Close connection
     cur.close()
@@ -203,7 +208,7 @@ def add_buck(id):
 
         #add transfer to transfer table
         giverID = int(givingUser['id'])
-        cur.execute("INSERT INTO bucktransfers VALUES(%s,%s)", (id,giverID))
+        cur.execute("INSERT INTO bucktransfers VALUES(%s,%s)", (giverID,id))
     else:
         if gettingUser.get('username') == session['username']:
             flash('You cant give yourself bucks you cheater', 'success')
