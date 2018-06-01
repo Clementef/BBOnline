@@ -1,5 +1,5 @@
 # BBonline
-Bulldog Bucks Online
+Bulldog Bucks Online - Project in Progress
 
 ## Dev Team
 - Clemente Ferrer
