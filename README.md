@@ -3,9 +3,9 @@ Bulldog Bucks Online - A project built in Mr. Wright's 2018 Capstone tester clas
 
 ## Built With:
 - python
--- Flask (including MYSQLDB)
--- WTForms
--- passlib
+  - Flask (including MYSQLDB)
+  - WTForms
+  - passlib
 - mySQL
 - HTML/CSS
 
