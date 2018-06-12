@@ -2,12 +2,12 @@
 Bulldog Bucks Online - A project built in Mr. Wright's 2018 Capstone tester class
 
 ## Built With:
--python
---Flask (including MYSQLDB)
---WTForms
---passlib
--mySQL
--HTML/CSS
+- python
+-- Flask (including MYSQLDB)
+-- WTForms
+-- passlib
+- mySQL
+- HTML/CSS
 
 ## Dev Team:
 - Clemente Ferrer
